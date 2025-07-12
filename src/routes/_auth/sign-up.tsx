@@ -30,7 +30,7 @@ function RouteComponent() {
       return;
     }
 
-    navigate({ to: "/sign-in" });
+    navigate({ to: "/sign-in", search: { verify: true } });
   }
 
   return (
