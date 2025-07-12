@@ -16,7 +16,6 @@ async function sendVerificationMail({ to, url }: { to: string; url: string }) {
 }
 
 async function sendResetPasswordMail({ to, url }: { to: string; url: string }) {
-  console.log("Sending reset password mail to:", to, "with URL:", url);
   const { error } = await emailClient.emails.send({
     from: "StatTrack <auto@edvardsen.dev>",
     to: [to],

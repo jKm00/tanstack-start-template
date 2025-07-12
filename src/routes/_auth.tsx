@@ -12,7 +12,7 @@ export const Route = createFileRoute("/_auth")({
 
 function RouteComponent() {
   return (
-    <div className="h-screen grid content-center gap-4 justify-center">
+    <div className="h-screen grid content-center gap-4">
       <Outlet />
     </div>
   );

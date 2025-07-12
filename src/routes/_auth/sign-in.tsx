@@ -1,11 +1,14 @@
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Button } from "~/components/ui/button";
+import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { authClient } from "~/lib/auth/auth-client";
 import { z } from "zod";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
+import { Label } from "~/components/ui/label";
+import { useSignIn } from "~/features/auth/use-cases";
 
 const searchSchema = z.object({
   verify: z.boolean().optional(),
@@ -17,12 +20,14 @@ export const Route = createFileRoute("/_auth/sign-in")({
 });
 
 function RouteComponent() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
   const navigate = useNavigate();
   const { verify } = Route.useSearch();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string>("");
+
+  const mutation = useSignIn();
 
   useEffect(() => {
     if (verify) {
@@ -31,61 +36,70 @@ function RouteComponent() {
   }, []);
 
   async function signIn() {
-    if (email === "" || password === "") return;
+    setError("");
 
-    const { error } = await authClient.signIn.email({
-      email,
-      password,
-    });
-
-    if (error) {
-      if (error.status === 403) {
-        setError("Please verify your email address");
-        return;
+    mutation.mutate(
+      {
+        email,
+        password,
+      },
+      {
+        onError: (error) => {
+          setError(error.message);
+        },
+        onSuccess: () => {
+          navigate({ to: "/dashboard" });
+        },
       }
-      setError("Sign in failed. Please check your credentials and try again.");
-      return;
-    }
-
-    navigate({ to: "/dashboard" });
+    );
   }
 
   return (
-    <>
+    <div className="mx-auto" style={{ width: "min(100%, 500px)" }}>
+      <h1>
+        <Link to="/">StatTrack</Link>
+      </h1>
+      <h2 className="text-2xl font-bold mb-4">Sign In</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           signIn();
         }}
-        className="grid gap-2"
+        className="grid mb-4"
         style={{ width: "min(100%, 500px)" }}
       >
+        <Label htmlFor="email">Email</Label>
         <Input
+          id="email"
           type="email"
-          placeholder="Email"
+          placeholder="example@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="mb-4"
         />
+        <Label htmlFor="password">Password</Label>
         <Input
+          id="password"
           type="password"
-          placeholder="Password"
+          placeholder="********"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="mb-4"
         />
-        <Button type="submit" className="w-full">
+        <LoaderButton isLoading={mutation.isPending} type="submit" className="w-full">
           Sign In
-        </Button>
-        {error && <div className="text-destructive text-sm">{error}</div>}
+        </LoaderButton>
+        <div className="text-destructive mt-2 text-center">{error}</div>
       </form>
-      <p className="text-sm">
+      <p className="text-sm text-center mb-2">
         Don't have an account?{" "}
         <Link to="/sign-up" className="underline">
           Sign up here
         </Link>
       </p>
-      <Link to="/request-reset-password" className="text-sm underline">
+      <Link to="/request-reset-password" className="text-sm underline text-center block mb-4">
         Forgot password
       </Link>
-    </>
+    </div>
   );
 }
