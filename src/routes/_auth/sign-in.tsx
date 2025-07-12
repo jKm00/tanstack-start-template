@@ -83,6 +83,9 @@ function RouteComponent() {
           Sign up here
         </Link>
       </p>
+      <Link to="/request-reset-password" className="text-sm underline">
+        Forgot password
+      </Link>
     </>
   );
 }
