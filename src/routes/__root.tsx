@@ -83,15 +83,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="p-2 flex gap-2 text-lg">
-          <Link
-            to="/"
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link>{' '}
+          <button>Sign in</button>
         </div>
         <hr />
         {children}
