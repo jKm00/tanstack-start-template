@@ -1,47 +1,51 @@
-import { int, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { boolean, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
 
-export const users = sqliteTable("user", {
-	id: text("id").primaryKey().notNull(),
-  name: text("name").notNull(),
-  email: text("email").notNull().unique(),
-	emailVerified: integer("emailVerified", { mode: "boolean" }).notNull(),
-	image: text("image"),
-	createdAt: text("createdAt").notNull().default(`(CURRENT_TIMESTAMP)`),
-	updatedAt: text("updatedAt").notNull().default(`(CURRENT_TIMESTAMP)`),
+export const user = pgTable("user", {
+  id: varchar("id", { length: 255 }).primaryKey().notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  emailVerified: boolean("emailVerified").notNull(),
+  image: varchar("image", { length: 255 }),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });
 
-export const sessions = sqliteTable("session", {
-	id: text("id").primaryKey().notNull(),
-	userId: text("userId").notNull().references(() => users.id),
-	token: text("token").notNull().unique(),
-	expiresAt: text("expiresAt").notNull(),
-	ipAddress: text("ipAddress"),
-	userAgent: text("userAgent"),
-	createdAt: text("createdAt").notNull().default(`(CURRENT_TIMESTAMP)`),
-	updatedAt: text("updatedAt").notNull().default(`(CURRENT_TIMESTAMP)`),
-})
+export const session = pgTable("session", {
+  id: varchar("id", { length: 255 }).primaryKey().notNull(),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => user.id),
+  token: varchar("token", { length: 255 }).notNull().unique(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  ipAddress: varchar("ipAddress", { length: 255 }),
+  userAgent: varchar("userAgent", { length: 255 }),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
 
-export const accounts = sqliteTable("account", {
-	id: text("id").primaryKey().notNull(),
-	userId: text("userId").notNull().references(() => users.id),
-	accountId: text("accountId").notNull(),
-	providerId: text("providerId").notNull(),
-	accessToken: text("accessToken"),
-	refreshToken: text("refreshToken"),
-	accessTokenExpiresAt: text("accessTokenExpiresAt").default(`(CURRENT_TIMESTAMP)`),
-	refreshTokenExpiresAt: text("refreshTokenExpiresAt").default(`(CURRENT_TIMESTAMP)`),
-	scope: text("scope"),
-	idToken: text("idToken"),
-	password: text("password"),
-	createdAt: text("createdAt").notNull().default(`(CURRENT_TIMESTAMP)`),
-	updatedAt: text("updatedAt").notNull().default(`(CURRENT_TIMESTAMP)`),
-})
+export const account = pgTable("account", {
+  id: varchar("id", { length: 255 }).primaryKey().notNull(),
+  userId: varchar("userId", { length: 255 })
+    .notNull()
+    .references(() => user.id),
+  accountId: varchar("accountId", { length: 255 }).notNull(),
+  providerId: varchar("providerId", { length: 255 }).notNull(),
+  accessToken: varchar("accessToken", { length: 255 }),
+  refreshToken: varchar("refreshToken", { length: 255 }),
+  accessTokenExpiresAt: timestamp("accessTokenExpiresAt"),
+  refreshTokenExpiresAt: timestamp("refreshTokenExpiresAt"),
+  scope: varchar("scope", { length: 255 }),
+  idToken: varchar("idToken", { length: 255 }),
+  password: varchar("password", { length: 255 }),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
 
-export const verifications = sqliteTable("verification", {
-	id: text("id").primaryKey().notNull(),
-	identifier: text("identifier").notNull(),
-	value: text("value").notNull(),
-	expiresAt: text("expiresAt").notNull(),
-	createdAt: text("createdAt").notNull().default(`(CURRENT_TIMESTAMP)`),
-	updatedAt: text("updatedAt").notNull().default(`(CURRENT_TIMESTAMP)`),
-})
+export const verification = pgTable("verification", {
+  id: varchar("id", { length: 255 }).primaryKey().notNull(),
+  identifier: varchar("identifier", { length: 255 }).notNull(),
+  value: varchar("value", { length: 255 }).notNull(),
+  expiresAt: timestamp("expiresAt").notNull(),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
