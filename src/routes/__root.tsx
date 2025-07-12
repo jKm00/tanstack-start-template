@@ -14,6 +14,7 @@ import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
+import { Button } from '~/components/ui/button'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -83,7 +84,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="p-2 flex gap-2 text-lg">
-          <button>Sign in</button>
+          <Button>Sign in</Button>
         </div>
         <hr />
         {children}
