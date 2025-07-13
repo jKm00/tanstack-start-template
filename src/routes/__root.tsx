@@ -16,6 +16,8 @@ import { seo } from "~/utils/seo";
 import { Toaster } from "~/components/ui/sonner";
 
 import appCss from "~/styles/app.css?url";
+import { getThemeServerFn } from "~/features/theme/controller";
+import { ThemeProvider, useTheme } from "~/features/theme/theme-provider";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -66,26 +68,33 @@ export const Route = createRootRouteWithContext<{
   },
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
+  loader: () => getThemeServerFn(),
 });
 
 function RootComponent() {
+  const data = Route.useLoaderData();
+
   return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
+    <ThemeProvider theme={data}>
+      <RootDocument>
+        <Outlet />
+      </RootDocument>
+    </ThemeProvider>
   );
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme();
+
   return (
-    <html>
+    <html className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
         {children}
         <Toaster />
-        <TanStackRouterDevtools position="top-right" />
+        {/* <TanStackRouterDevtools position="top-right" /> */}
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />
       </body>

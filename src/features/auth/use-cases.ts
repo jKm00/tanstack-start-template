@@ -62,6 +62,18 @@ export function useSignUp() {
   });
 }
 
+export function useSignOut() {
+  return useMutation({
+    mutationFn: async () => {
+      const { error } = await authClient.signOut();
+
+      if (error) {
+        throw new Error("Sign out failed. Please try again.");
+      }
+    },
+  });
+}
+
 export function useRequestPasswordReset() {
   return useMutation({
     mutationFn: async (email: string) => {

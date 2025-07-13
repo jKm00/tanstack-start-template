@@ -60,7 +60,10 @@ const LoaderButton = React.forwardRef<HTMLButtonElement, LoaderButtonProps>(
           className="grid items-center justify-items-center"
           style={{ gridTemplateAreas: "stack" }}
         >
-          <span className={`${isLoading ? "invisible" : "visible"}`} style={{ gridArea: "stack" }}>
+          <span
+            className={`flex items-center gap-2 ${isLoading ? "invisible" : "visible"}`}
+            style={{ gridArea: "stack" }}
+          >
             {children}
           </span>
           <Loader2

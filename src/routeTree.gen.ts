@@ -18,7 +18,11 @@ import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/_auth/sign-in'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthRequestResetPasswordRouteImport } from './routes/_auth/request-reset-password'
-import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppProfileRouteImport } from './routes/_app/profile'
+import { Route as AppDashboardIndexRouteImport } from './routes/_app/dashboard/index'
+import { Route as AppDashboardWorkoutsRouteImport } from './routes/_app/dashboard/workouts'
+import { Route as AppDashboardLogsRouteImport } from './routes/_app/dashboard/logs'
+import { Route as AppDashboardExercisesRouteImport } from './routes/_app/dashboard/exercises'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -57,9 +61,29 @@ const AuthRequestResetPasswordRoute =
     path: '/request-reset-password',
     getParentRoute: () => AuthRoute,
   } as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardIndexRoute = AppDashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardWorkoutsRoute = AppDashboardWorkoutsRouteImport.update({
+  id: '/dashboard/workouts',
+  path: '/dashboard/workouts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardLogsRoute = AppDashboardLogsRouteImport.update({
+  id: '/dashboard/logs',
+  path: '/dashboard/logs',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardExercisesRoute = AppDashboardExercisesRouteImport.update({
+  id: '/dashboard/exercises',
+  path: '/dashboard/exercises',
   getParentRoute: () => AppRoute,
 } as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
@@ -70,58 +94,82 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof AppDashboardRoute
+  '/profile': typeof AppProfileRoute
   '/request-reset-password': typeof AuthRequestResetPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
+  '/dashboard/exercises': typeof AppDashboardExercisesRoute
+  '/dashboard/logs': typeof AppDashboardLogsRoute
+  '/dashboard/workouts': typeof AppDashboardWorkoutsRoute
+  '/dashboard': typeof AppDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof AppDashboardRoute
+  '/profile': typeof AppProfileRoute
   '/request-reset-password': typeof AuthRequestResetPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
+  '/dashboard/exercises': typeof AppDashboardExercisesRoute
+  '/dashboard/logs': typeof AppDashboardLogsRoute
+  '/dashboard/workouts': typeof AppDashboardWorkoutsRoute
+  '/dashboard': typeof AppDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
-  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/profile': typeof AppProfileRoute
   '/_auth/request-reset-password': typeof AuthRequestResetPasswordRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
+  '/_app/dashboard/exercises': typeof AppDashboardExercisesRoute
+  '/_app/dashboard/logs': typeof AppDashboardLogsRoute
+  '/_app/dashboard/workouts': typeof AppDashboardWorkoutsRoute
+  '/_app/dashboard/': typeof AppDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
+    | '/profile'
     | '/request-reset-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/dashboard/exercises'
+    | '/dashboard/logs'
+    | '/dashboard/workouts'
+    | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
+    | '/profile'
     | '/request-reset-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
+    | '/dashboard/exercises'
+    | '/dashboard/logs'
+    | '/dashboard/workouts'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/_app'
     | '/_auth'
-    | '/_app/dashboard'
+    | '/_app/profile'
     | '/_auth/request-reset-password'
     | '/_auth/reset-password'
     | '/_auth/sign-in'
     | '/_auth/sign-up'
+    | '/_app/dashboard/exercises'
+    | '/_app/dashboard/logs'
+    | '/_app/dashboard/workouts'
+    | '/_app/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -202,11 +250,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRequestResetPasswordRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_app/dashboard': {
-      id: '/_app/dashboard'
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard/': {
+      id: '/_app/dashboard/'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof AppDashboardRouteImport
+      preLoaderRoute: typeof AppDashboardIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard/workouts': {
+      id: '/_app/dashboard/workouts'
+      path: '/dashboard/workouts'
+      fullPath: '/dashboard/workouts'
+      preLoaderRoute: typeof AppDashboardWorkoutsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard/logs': {
+      id: '/_app/dashboard/logs'
+      path: '/dashboard/logs'
+      fullPath: '/dashboard/logs'
+      preLoaderRoute: typeof AppDashboardLogsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard/exercises': {
+      id: '/_app/dashboard/exercises'
+      path: '/dashboard/exercises'
+      fullPath: '/dashboard/exercises'
+      preLoaderRoute: typeof AppDashboardExercisesRouteImport
       parentRoute: typeof AppRoute
     }
   }
@@ -224,11 +300,19 @@ declare module '@tanstack/react-start/server' {
 }
 
 interface AppRouteChildren {
-  AppDashboardRoute: typeof AppDashboardRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppDashboardExercisesRoute: typeof AppDashboardExercisesRoute
+  AppDashboardLogsRoute: typeof AppDashboardLogsRoute
+  AppDashboardWorkoutsRoute: typeof AppDashboardWorkoutsRoute
+  AppDashboardIndexRoute: typeof AppDashboardIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppDashboardRoute: AppDashboardRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppDashboardExercisesRoute: AppDashboardExercisesRoute,
+  AppDashboardLogsRoute: AppDashboardLogsRoute,
+  AppDashboardWorkoutsRoute: AppDashboardWorkoutsRoute,
+  AppDashboardIndexRoute: AppDashboardIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

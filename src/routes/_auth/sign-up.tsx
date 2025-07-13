@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Gem } from "lucide-react";
 import { useState } from "react";
 import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -42,10 +43,18 @@ function RouteComponent() {
 
   return (
     <div className="mx-auto" style={{ width: "min(100%, 500px)" }}>
-      <h1>
-        <Link to="/">StatTrack</Link>
-      </h1>
-      <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+      <div className="flex flex-col items-center mb-8">
+        <Link to="/">
+          <Gem className="mb-2" />
+        </Link>
+        <h1 className="font-bold text-2xl mb-2">Start your journy with StatTrack</h1>
+        <p className="text-sm">
+          Already have an account?{" "}
+          <Link to="/sign-in" className="underline">
+            Sign in
+          </Link>
+        </p>
+      </div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -86,12 +95,6 @@ function RouteComponent() {
         </LoaderButton>
         <div className="text-destructive mt-2 text-center">{error}</div>
       </form>
-      <p className="text-sm text-center">
-        Already have an account?{" "}
-        <Link to="/sign-in" className="underline">
-          Sign in here
-        </Link>
-      </p>
     </div>
   );
 }

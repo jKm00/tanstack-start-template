@@ -6,7 +6,7 @@ import { authClient } from "~/lib/auth/auth-client";
 import { z } from "zod";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { toast } from "sonner";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Gem } from "lucide-react";
 import { Label } from "~/components/ui/label";
 import { useSignIn } from "~/features/auth/use-cases";
 
@@ -56,10 +56,18 @@ function RouteComponent() {
 
   return (
     <div className="mx-auto" style={{ width: "min(100%, 500px)" }}>
-      <h1>
-        <Link to="/">StatTrack</Link>
-      </h1>
-      <h2 className="text-2xl font-bold mb-4">Sign In</h2>
+      <div className="flex flex-col items-center mb-8">
+        <Link to="/">
+          <Gem className="mb-2" />
+        </Link>
+        <h1 className="font-bold text-2xl mb-2">Welcome to StatTrack</h1>
+        <p className="text-sm">
+          Don't have an account?{" "}
+          <Link to="/sign-up" className="underline">
+            Sign up
+          </Link>
+        </p>
+      </div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -91,12 +99,6 @@ function RouteComponent() {
         </LoaderButton>
         <div className="text-destructive mt-2 text-center">{error}</div>
       </form>
-      <p className="text-sm text-center mb-2">
-        Don't have an account?{" "}
-        <Link to="/sign-up" className="underline">
-          Sign up here
-        </Link>
-      </p>
       <Link to="/request-reset-password" className="text-sm underline text-center block mb-4">
         Forgot password
       </Link>
