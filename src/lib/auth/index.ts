@@ -19,6 +19,14 @@ export const auth = betterAuth({
       enabled: true,
     },
   },
+  user: {
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async ({ user, newEmail, url }) => {
+        await email.sendChangeEmailVerification({ to: user.email, newEmail, url });
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,

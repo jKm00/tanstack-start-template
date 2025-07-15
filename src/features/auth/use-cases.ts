@@ -113,3 +113,26 @@ export function useResetPassword() {
     },
   });
 }
+
+export function useChangeEmail() {
+  return useMutation({
+    mutationFn: async ({ currentEmail, newEmail }: { currentEmail: string; newEmail: string }) => {
+      if (newEmail === "") {
+        throw new Error("New email is required!");
+      }
+
+      if (newEmail === currentEmail) {
+        throw new Error("New email must be different from current email!");
+      }
+
+      const { error } = await authClient.changeEmail({
+        newEmail,
+        callbackURL: "/dashboard",
+      });
+
+      if (error) {
+        throw new Error(error.message || "Failed to change email");
+      }
+    },
+  });
+}
