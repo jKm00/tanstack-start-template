@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "~/lib/db";
-import { todo } from "~/lib/db/schema";
+import { db } from "~/features/db/lib";
+import { todo } from "~/features/db/lib/schema";
 
 async function getTodos(userId: string) {
   return db.query.todo.findMany({

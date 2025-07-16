@@ -1,4 +1,4 @@
-import { emailClient } from "~/lib/email";
+import { emailClient } from "~/features/email/lib";
 import { VerificationTemplate } from "./templates/verification.mail";
 import { ResetPasswordTemplate } from "./templates/reset-password.mail";
 import { ChangeEmailVerificationTemplate } from "./templates/change-email-verification.mail";

@@ -1,7 +1,7 @@
 import { useServerFn } from "@tanstack/react-start";
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
-import { tryCatch } from "~/utils";
 import { todoController } from "../server/controller";
+import { tryCatch } from "~/lib/utils";
 
 const queryKey = ["todos"];
 
