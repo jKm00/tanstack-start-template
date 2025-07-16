@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { authClient } from "~/features/auth/lib/auth-client";
 import { ArrowRight, Check, Gem, LogIn } from "lucide-react";
+import { ThemeToggle } from "~/features/theme/client/theme-toggle";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -38,19 +39,22 @@ function Home() {
               </Link>
             </li>
           </ul>
-          {session ? (
-            <Button asChild size="sm">
-              <Link to="/dashboard">
-                Go to Dashboard <ArrowRight />
-              </Link>
-            </Button>
-          ) : (
-            <Button asChild size="sm">
-              <Link to="/sign-in">
-                Sign In <LogIn />
-              </Link>
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            {session ? (
+              <Button asChild size="sm">
+                <Link to="/dashboard">
+                  Go to Dashboard <ArrowRight />
+                </Link>
+              </Button>
+            ) : (
+              <Button asChild size="sm">
+                <Link to="/sign-in">
+                  Sign In <LogIn />
+                </Link>
+              </Button>
+            )}
+          </div>
         </div>
       </header>
       <div

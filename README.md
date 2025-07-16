@@ -10,8 +10,29 @@ A minimal full‑stack Todo app that demonstrates how to wire together the moder
 | Better-Auth    | Authentication & session management (email/password, OAuth, Passkeys)  |
 | Drizzle ORM    | Type-safe SQL with PostgreSQL migrations                               |
 | Zod            | Schema validation                                                      |
+| Shadcn         | UI Components                                                          |
 
-## What's inside?
+## Table of Content
+
+- [TanStack Start • TanStack Query • Better‑Auth • Drizzle 🚀](#tanstack-start--tanstack-query--betterauth--drizzle-)
+  - [Table of Content](#table-of-content)
+  - [Features](#features)
+    - [Authentication](#authentication)
+    - [App Experience](#app-experience)
+    - [UI](#ui)
+  - [Quick Start](#quick-start)
+    - [Prerequiste](#prerequiste)
+    - [Step by Step](#step-by-step)
+    - [Email Provider Setup](#email-provider-setup)
+      - [When is email used?](#when-is-email-used)
+      - [Using Resend](#using-resend)
+      - [Using a Different Email Provider](#using-a-different-email-provider)
+  - [Project Structure](#project-structure)
+  - [Customization](#customization)
+    - [Theming](#theming)
+  - [Useful Scripts](#useful-scripts)
+
+## Features
 
 ### Authentication
 
@@ -26,13 +47,18 @@ A minimal full‑stack Todo app that demonstrates how to wire together the moder
 ### App Experience
 
 - Streaming SSR for the first paint
-- Light & Dark theme
 - CRUD Todo items
   - TanStack Query with loading & error state
   - TanStack Query mutations with optimistic updates
   - TanStack Form + Zod client-side validation
   - Zod server-side validation
   - End-to-end type safety
+
+### UI
+
+- UI components from [Shadcn](https://ui.shadcn.com/)
+- Light & Dark theme
+- Custom theming
 
 ## Quick Start
 
@@ -46,11 +72,11 @@ A minimal full‑stack Todo app that demonstrates how to wire together the moder
 
 _Note:_ This project uses [Resend](https://resend.com/) for email flows. See the email section below for setup.
 
-#### 1. Configure `.env` variables
+1. Configure `.env` variables
 
 Look at [.env.example](./.env.example) for reference.
 
-#### 2. Run local db
+2. Run local db
 
 Use the [docker compose file](./docker-compose.dev.yaml) in this repo to spin up a local db with:
 
@@ -58,13 +84,13 @@ Use the [docker compose file](./docker-compose.dev.yaml) in this repo to spin up
 docker compose -f docker-compose.dev.yaml up -d
 ```
 
-#### 3. Install dependencies
+3. Install dependencies
 
 ```
 pnpm install
 ```
 
-#### 4. Run migrations
+4. Run migrations
 
 Run migrations to populate your local db with the correct schema:
 
@@ -72,7 +98,7 @@ Run migrations to populate your local db with the correct schema:
 pnpm db:migrate
 ```
 
-#### 5. Run dev server
+5. Run dev server
 
 ```
 pnpm dev
@@ -125,6 +151,17 @@ src/
   styles/                  # Tailwind config and theme
   utils/                   # SEO, helpers
 ```
+
+## Customization
+
+### Theming
+
+This template uses [Shadcn UI](https://ui.shadcn.com/) as its component library.
+All visual styles, including light/dark mode and component look-and-feel, can be customized in [app.css](/src/styles/app.css).
+
+To simplify theme creation or adjustments, I recommend using [tweakcn](https://tweakcn.com/) - a powerful cisual tool for generation and previewing Shadcn-compatible themes.
+
+> This project is currently styled with the `Doom64` theme from tweakcn.
 
 ## Useful Scripts
 
