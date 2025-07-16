@@ -2,6 +2,7 @@ import { emailClient } from "~/features/email/lib";
 import { VerificationTemplate } from "./templates/verification.mail";
 import { ResetPasswordTemplate } from "./templates/reset-password.mail";
 import { ChangeEmailVerificationTemplate } from "./templates/change-email-verification.mail";
+import { EmailService } from "./service.interface";
 
 async function sendVerificationMail({ to, url }: { to: string; url: string }) {
   const { error } = await emailClient.emails.send({
@@ -54,4 +55,4 @@ export const email = {
   sendVerificationMail,
   sendResetPasswordMail,
   sendChangeEmailVerification,
-};
+} satisfies EmailService;
