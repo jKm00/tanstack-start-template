@@ -20,8 +20,6 @@ async function addTodo({
   description?: string;
   userId: string;
 }) {
-  // Simulate 2 sec delay
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   await db.insert(todo).values({
     title,
     description,

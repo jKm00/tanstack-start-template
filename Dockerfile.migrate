@@ -1,0 +1,12 @@
+FROM node:20-alpine
+
+WORKDIR /migrate
+
+RUN npm init -y
+RUN npm install drizzle-orm pg dotenv 
+RUN npm install -D drizzle-kit tsx @types/pg
+
+COPY drizzle.config.ts ./
+COPY drizzle ./drizzle
+
+ENTRYPOINT ["npx", "drizzle-kit", "migrate"]
