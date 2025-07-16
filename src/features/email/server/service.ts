@@ -6,7 +6,7 @@ import { EmailService } from "./service.interface";
 
 async function sendVerificationMail({ to, url }: { to: string; url: string }) {
   const { error } = await emailClient.emails.send({
-    from: "StatTrack <auto@edvardsen.dev>",
+    from: "JKM Template <auto@edvardsen.dev>",
     to: [to],
     subject: "Verify your email",
     react: VerificationTemplate({ url }),
@@ -19,7 +19,7 @@ async function sendVerificationMail({ to, url }: { to: string; url: string }) {
 
 async function sendResetPasswordMail({ to, url }: { to: string; url: string }) {
   const { error } = await emailClient.emails.send({
-    from: "StatTrack <auto@edvardsen.dev>",
+    from: "JKM Template <auto@edvardsen.dev>",
     to: [to],
     subject: "Reset your password",
     react: ResetPasswordTemplate({ url }),
@@ -40,7 +40,7 @@ async function sendChangeEmailVerification({
   url: string;
 }) {
   const { error } = await emailClient.emails.send({
-    from: "StatTrack <auto@edvardsen.dev>",
+    from: "JKM Template <auto@edvardsen.dev>",
     to: [to],
     subject: "Verify your new email address",
     react: ChangeEmailVerificationTemplate({ newEmail, url }),

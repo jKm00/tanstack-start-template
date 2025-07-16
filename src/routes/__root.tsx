@@ -32,7 +32,7 @@ export const Route = createRootRouteWithContext<{
         content: "width=device-width, initial-scale=1",
       },
       ...seo({
-        title: "StatTrack",
+        title: "JKM Template",
         description: `TanStack Start is a type-safe, client-first, full-stack React framework. `,
       }),
     ],

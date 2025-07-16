@@ -1,11 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Gem } from "lucide-react";
 import { useState } from "react";
-import { Button, LoaderButton } from "~/components/ui/button";
+import { LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useSignUp } from "~/features/auth/client/use-cases";
-import { authClient } from "~/features/auth/lib/auth-client";
 
 export const Route = createFileRoute("/_auth/sign-up")({
   component: RouteComponent,
@@ -47,7 +46,7 @@ function RouteComponent() {
         <Link to="/">
           <Gem className="mb-2" />
         </Link>
-        <h1 className="font-bold text-2xl mb-2">Start your journy with StatTrack</h1>
+        <h1 className="font-bold text-2xl mb-2">Start your journy</h1>
         <p className="text-sm">
           Already have an account?{" "}
           <Link to="/sign-in" className="underline">

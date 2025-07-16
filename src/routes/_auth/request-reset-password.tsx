@@ -34,9 +34,6 @@ function RouteComponent() {
 
   return (
     <div className="mx-auto" style={{ width: "min(100%, 500px)" }}>
-      <h1>
-        <Link to="/">StatTrack</Link>
-      </h1>
       <h2 className="text-2xl font-bold mb-2">Request Reset password</h2>
       <p className="text-sm mb-8">
         Please enter the email of the account you wish to reset the password for.

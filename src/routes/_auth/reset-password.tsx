@@ -48,9 +48,6 @@ function RouteComponent() {
 
   return (
     <div className="mx-auto" style={{ width: "min(100%, 500px)" }}>
-      <h1>
-        <Link to="/">StatTrack</Link>
-      </h1>
       <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
       <form
         className="grid gap-2"

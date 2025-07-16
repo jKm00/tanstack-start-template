@@ -20,9 +20,6 @@ import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-pass
 import { Route as AuthRequestResetPasswordRouteImport } from './routes/_auth/request-reset-password'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
 import { Route as AppDashboardIndexRouteImport } from './routes/_app/dashboard/index'
-import { Route as AppDashboardWorkoutsRouteImport } from './routes/_app/dashboard/workouts'
-import { Route as AppDashboardLogsRouteImport } from './routes/_app/dashboard/logs'
-import { Route as AppDashboardExercisesRouteImport } from './routes/_app/dashboard/exercises'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -71,21 +68,6 @@ const AppDashboardIndexRoute = AppDashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppDashboardWorkoutsRoute = AppDashboardWorkoutsRouteImport.update({
-  id: '/dashboard/workouts',
-  path: '/dashboard/workouts',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppDashboardLogsRoute = AppDashboardLogsRouteImport.update({
-  id: '/dashboard/logs',
-  path: '/dashboard/logs',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppDashboardExercisesRoute = AppDashboardExercisesRouteImport.update({
-  id: '/dashboard/exercises',
-  path: '/dashboard/exercises',
-  getParentRoute: () => AppRoute,
-} as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -99,9 +81,6 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/dashboard/exercises': typeof AppDashboardExercisesRoute
-  '/dashboard/logs': typeof AppDashboardLogsRoute
-  '/dashboard/workouts': typeof AppDashboardWorkoutsRoute
   '/dashboard': typeof AppDashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -111,9 +90,6 @@ export interface FileRoutesByTo {
   '/reset-password': typeof AuthResetPasswordRoute
   '/sign-in': typeof AuthSignInRoute
   '/sign-up': typeof AuthSignUpRoute
-  '/dashboard/exercises': typeof AppDashboardExercisesRoute
-  '/dashboard/logs': typeof AppDashboardLogsRoute
-  '/dashboard/workouts': typeof AppDashboardWorkoutsRoute
   '/dashboard': typeof AppDashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -126,9 +102,6 @@ export interface FileRoutesById {
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/sign-in': typeof AuthSignInRoute
   '/_auth/sign-up': typeof AuthSignUpRoute
-  '/_app/dashboard/exercises': typeof AppDashboardExercisesRoute
-  '/_app/dashboard/logs': typeof AppDashboardLogsRoute
-  '/_app/dashboard/workouts': typeof AppDashboardWorkoutsRoute
   '/_app/dashboard/': typeof AppDashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -140,9 +113,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/dashboard/exercises'
-    | '/dashboard/logs'
-    | '/dashboard/workouts'
     | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -152,9 +122,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
-    | '/dashboard/exercises'
-    | '/dashboard/logs'
-    | '/dashboard/workouts'
     | '/dashboard'
   id:
     | '__root__'
@@ -166,9 +133,6 @@ export interface FileRouteTypes {
     | '/_auth/reset-password'
     | '/_auth/sign-in'
     | '/_auth/sign-up'
-    | '/_app/dashboard/exercises'
-    | '/_app/dashboard/logs'
-    | '/_app/dashboard/workouts'
     | '/_app/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -264,27 +228,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/dashboard/workouts': {
-      id: '/_app/dashboard/workouts'
-      path: '/dashboard/workouts'
-      fullPath: '/dashboard/workouts'
-      preLoaderRoute: typeof AppDashboardWorkoutsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/dashboard/logs': {
-      id: '/_app/dashboard/logs'
-      path: '/dashboard/logs'
-      fullPath: '/dashboard/logs'
-      preLoaderRoute: typeof AppDashboardLogsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/dashboard/exercises': {
-      id: '/_app/dashboard/exercises'
-      path: '/dashboard/exercises'
-      fullPath: '/dashboard/exercises'
-      preLoaderRoute: typeof AppDashboardExercisesRouteImport
-      parentRoute: typeof AppRoute
-    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -301,17 +244,11 @@ declare module '@tanstack/react-start/server' {
 
 interface AppRouteChildren {
   AppProfileRoute: typeof AppProfileRoute
-  AppDashboardExercisesRoute: typeof AppDashboardExercisesRoute
-  AppDashboardLogsRoute: typeof AppDashboardLogsRoute
-  AppDashboardWorkoutsRoute: typeof AppDashboardWorkoutsRoute
   AppDashboardIndexRoute: typeof AppDashboardIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppProfileRoute: AppProfileRoute,
-  AppDashboardExercisesRoute: AppDashboardExercisesRoute,
-  AppDashboardLogsRoute: AppDashboardLogsRoute,
-  AppDashboardWorkoutsRoute: AppDashboardWorkoutsRoute,
   AppDashboardIndexRoute: AppDashboardIndexRoute,
 }
 
