@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import NewTodoForm from "~/features/todo/client/components/new-todo-form";
 
-export const Route = createFileRoute('/_app/dashboard/')({
+export const Route = createFileRoute("/_app/dashboard/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/_app/dashboard/"!</div>
+  return (
+    <main className="mx-auto my-8" style={{ width: "min(800px, 100%)" }}>
+      <NewTodoForm />
+    </main>
+  );
 }

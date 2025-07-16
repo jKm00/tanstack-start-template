@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey().notNull(),
@@ -46,6 +46,16 @@ export const verification = pgTable("verification", {
   identifier: varchar("identifier", { length: 255 }).notNull(),
   value: varchar("value", { length: 255 }).notNull(),
   expiresAt: timestamp("expiresAt").notNull(),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
+
+export const todo = pgTable("todo", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  title: text("title").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
 });

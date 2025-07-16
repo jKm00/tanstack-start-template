@@ -136,3 +136,27 @@ export function useChangeEmail() {
     },
   });
 }
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: async ({
+      current,
+      newPassword,
+      revokeOtherSessions,
+    }: {
+      current: string;
+      newPassword: string;
+      revokeOtherSessions: boolean;
+    }) => {
+      const { error } = await authClient.changePassword({
+        newPassword: newPassword,
+        currentPassword: current,
+        revokeOtherSessions,
+      });
+
+      if (error) {
+        throw new Error(error.message || "Failed to change email");
+      }
+    },
+  });
+}
