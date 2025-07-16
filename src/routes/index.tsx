@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { authClient } from "~/features/auth/lib/auth-client";
-import { ArrowRight, Check, Gem, LogIn } from "lucide-react";
+import { ArrowRight, Check, Gem, Github, LogIn } from "lucide-react";
 import { ThemeToggle } from "~/features/theme/client/theme-toggle";
 
 export const Route = createFileRoute("/")({
@@ -21,25 +21,16 @@ function Home() {
           <h1 className="font-bold">
             <Link to="/" className="flex items-center gap-2">
               <Gem className="size-4" />
-              StatTrack
+              JKM Template
             </Link>
           </h1>
-          <ul className="flex items-center gap-4">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/" hash="about">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link to="/" hash="pricing">
-                Pricing
-              </Link>
-            </li>
-          </ul>
           <div className="flex items-center gap-2">
+            {/* TODO: Add link to repo */}
+            <Button asChild variant="ghost" className="px-2">
+              <a href="" target="_blank">
+                <Github />
+              </a>
+            </Button>
             <ThemeToggle />
             {session ? (
               <Button asChild size="sm">
@@ -62,11 +53,10 @@ function Home() {
         style={{ width: "min(100%, 1200px)" }}
       >
         <Gem className="size-8" />
-        <h1 className="text-6xl font-bold mb-4">StatTrack</h1>
+        <h1 className="text-6xl font-bold mb-4">JKM Template</h1>
         <p className="max-w-[80ch] text-center text-sm mb-8">
-          You're already putting in the work—now it's time to see the results. Track your exercises
-          with precision, monitor your growth, and stay motivated with clear, personalized
-          analytics.
+          A minimal full-stack Todo app that demonstrates how to wire together the modern TanStack
+          ecosystem with type-safe database access and batteries-included authentication.
         </p>
         <div className="flex gap-2">
           <Button asChild>
@@ -75,9 +65,11 @@ function Home() {
             </Link>
           </Button>
           <Button asChild variant="secondary">
-            <Link to="/" hash="about">
-              About
-            </Link>
+            {/* TODO: Add link to repo */}
+            <a href="/" target="_blank">
+              Explore code
+              <Github className="size-4" />
+            </a>
           </Button>
         </div>
       </div>
