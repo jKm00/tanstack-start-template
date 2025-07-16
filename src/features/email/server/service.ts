@@ -1,7 +1,7 @@
 import { emailClient } from "~/lib/email";
-import { VerificationTemplate } from "./components/verification.mail";
-import { ResetPasswordTemplate } from "./components/reset-password.mail";
-import { ChangeEmailVerificationTemplate } from "./components/change-email-verification.mail";
+import { VerificationTemplate } from "./templates/verification.mail";
+import { ResetPasswordTemplate } from "./templates/reset-password.mail";
+import { ChangeEmailVerificationTemplate } from "./templates/change-email-verification.mail";
 
 async function sendVerificationMail({ to, url }: { to: string; url: string }) {
   const { error } = await emailClient.emails.send({
