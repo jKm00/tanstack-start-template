@@ -4,47 +4,76 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useAddTodo } from "../use-cases";
 import { toast } from "sonner";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Plus } from "lucide-react";
+import { Textarea } from "~/components/ui/textarea";
 
 export default function NewTodoForm() {
-  const [newTodo, setNewTodo] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const mutation = useAddTodo();
 
   function handleSubmit() {
-    if (newTodo === "") {
+    if (title === "") {
       toast.info("Please enter a todo title.");
       return;
     }
 
-    mutation.mutate(newTodo, {
-      onError: (error) => {
-        toast.error(`Failed to add todo: ${error.message}`);
+    mutation.mutate(
+      {
+        title,
+        description: description || undefined,
       },
-      onSuccess: () => {
-        setNewTodo("");
-      },
-    });
+      {
+        onError: (error) => {
+          toast.error(`Failed to add todo: ${error.message}`);
+        },
+        onSuccess: () => {
+          setTitle("");
+          setDescription("");
+        },
+      }
+    );
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-      className="flex items-end gap-4"
-    >
-      <div className="grow">
-        <Label htmlFor="new-todo">New Todo</Label>
-        <Input
-          id="new-todo"
-          type="text"
-          placeholder="Enter a new todo"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-        />
-      </div>
-      <LoaderButton isLoading={mutation.isPending}>Add Todo</LoaderButton>
-    </form>
+    <Card>
+      <CardHeader>
+        <CardTitle>New Todo</CardTitle>
+        <CardDescription>Enter details for a new todo</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="grid"
+        >
+          <Label htmlFor="title">Title</Label>
+          <Input
+            id="title"
+            type="text"
+            placeholder="Enter a new todo"
+            className="mb-2"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            placeholder="(Optional) Enter a description"
+            className="mb-2"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <LoaderButton isLoading={mutation.isPending}>
+            <Plus className="size-4" />
+            Add
+          </LoaderButton>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

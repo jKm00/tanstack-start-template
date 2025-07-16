@@ -22,8 +22,8 @@ export function useAddTodo() {
 
   return useMutation({
     mutationKey: mutationKeys.addTodo,
-    mutationFn: async (title: string) => {
-      const [error, _] = await tryCatch(_addTodo({ data: { title } }));
+    mutationFn: async ({ title, description }: { title: string; description?: string }) => {
+      const [error, _] = await tryCatch(_addTodo({ data: { title, description } }));
 
       if (error) {
         throw error;
