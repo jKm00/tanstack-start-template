@@ -10,18 +10,12 @@ import { Gem, Key } from "lucide-react";
 import { Label } from "~/components/ui/label";
 import { useSignIn, useSignInWithPasskey } from "~/features/auth/client/use-cases";
 
-const searchSchema = z.object({
-  verify: z.boolean().optional(),
-});
-
 export const Route = createFileRoute("/_auth/sign-in")({
   component: RouteComponent,
-  validateSearch: zodValidator(searchSchema),
 });
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const { verify } = Route.useSearch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,12 +23,6 @@ function RouteComponent() {
 
   const signInMutation = useSignIn();
   const signInWithPasskeyMutation = useSignInWithPasskey();
-
-  useEffect(() => {
-    if (verify) {
-      toast.info("Please verify your email address before signing in");
-    }
-  }, []);
 
   // Autofill passkey if available
   useEffect(() => {

@@ -8,8 +8,8 @@ import { useAddTodo } from "../use-cases";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { todoSchema } from "../../validations";
 import z from "zod";
+import { todoValidation } from "../../validations";
 
 export default function NewTodoForm() {
   const {
@@ -18,11 +18,11 @@ export default function NewTodoForm() {
     formState: { errors },
     reset,
   } = useForm({
-    resolver: zodResolver(todoSchema),
+    resolver: zodResolver(todoValidation),
   });
   const mutation = useAddTodo();
 
-  async function onSubmit(data: z.infer<typeof todoSchema>) {
+  async function onSubmit(data: z.infer<typeof todoValidation>) {
     mutation.mutate(
       {
         title: data.title,

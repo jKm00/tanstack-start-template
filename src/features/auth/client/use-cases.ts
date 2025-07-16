@@ -1,5 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
+import z from "zod";
 import { authClient } from "~/features/auth/lib/auth-client";
+import { registerValidation } from "../validations";
 
 export function useSignIn() {
   return useMutation({
@@ -42,16 +44,14 @@ export function useSignUp() {
       email: string;
       password: string;
     }) => {
-      if (name === "") {
-        throw new Error("Name is required!");
-      }
+      const result = registerValidation.safeParse({
+        name,
+        email,
+        password,
+      });
 
-      if (email === "") {
-        throw new Error("Email is required!");
-      }
-
-      if (password === "") {
-        throw new Error("Password is required!");
+      if (!result.success) {
+        throw new Error("Make sure to fill in all fields correctly");
       }
 
       const { error } = await authClient.signUp.email({

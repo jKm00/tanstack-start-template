@@ -1,10 +1,14 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Gem } from "lucide-react";
+import { Eye, EyeOff, Gem } from "lucide-react";
 import { useState } from "react";
-import { LoaderButton } from "~/components/ui/button";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useSignUp } from "~/features/auth/client/use-cases";
+import { registerValidation } from "~/features/auth/validations";
 
 export const Route = createFileRoute("/_auth/sign-up")({
   component: RouteComponent,
@@ -12,29 +16,29 @@ export const Route = createFileRoute("/_auth/sign-up")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string>("");
-
   const mutation = useSignUp();
 
-  async function signUp() {
-    setError("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(registerValidation),
+  });
+
+  async function onSignUp(data: z.infer<typeof registerValidation>) {
     mutation.mutate(
       {
-        name,
-        email,
-        password,
+        name: data.name,
+        email: data.email,
+        password: data.password,
       },
       {
-        onError: (error) => {
-          setError(error.message);
-        },
         onSuccess: () => {
-          navigate({ to: "/sign-in" });
+          setEmailSent(true);
         },
       }
     );
@@ -55,44 +59,61 @@ function RouteComponent() {
         </p>
       </div>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          signUp();
-        }}
-        className="grid mb-4"
+        onSubmit={handleSubmit(onSignUp)}
+        className="grid space-y-4"
         style={{ width: "min(100%, 500px)" }}
       >
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          type="text"
-          placeholder="John Doe"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="mb-4"
-        />
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="example@email.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mb-4"
-        />
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-          placeholder="********"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mb-4"
-        />
+        <div>
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="John Doe"
+            {...register("name")}
+            aria-invalid={errors.name ? "true" : "false"}
+          />
+          <p className="text-destructive text-sm">{errors.name?.message}</p>
+        </div>
+        <div>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="example@email.com"
+            {...register("email")}
+            aria-invalid={errors.email ? "true" : "false"}
+          />
+          <p className="text-destructive text-sm">{errors.email?.message}</p>
+        </div>
+        <div>
+          <Label htmlFor="password">Password</Label>
+          <div className="flex items-center gap-2">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="********"
+              {...register("password")}
+              aria-invalid={errors.password ? "true" : "false"}
+            />
+            <Button
+              onClick={() => setShowPassword((prev) => !prev)}
+              type="button"
+              variant="outline"
+            >
+              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+            </Button>
+          </div>
+          <p className="text-destructive text-sm">{errors.password?.message}</p>
+        </div>
         <LoaderButton isLoading={mutation.isPending} type="submit">
           Sign Up
         </LoaderButton>
-        <div className="text-destructive mt-2 text-center">{error}</div>
+        <p className="text-destructive text-sm text-center">{mutation.error?.message}</p>
+        {emailSent && (
+          <p className="text-sm text-green-400 text-center">
+            An email has been sent to your address. Please verify your email to signing in.
+          </p>
+        )}
       </form>
     </div>
   );

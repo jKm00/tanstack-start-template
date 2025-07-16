@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { todoService } from "./service";
 import { withAuth } from "~/features/auth/server/middleware";
-import { todoSchema } from "../validations";
+import { todoValidation } from "../validations";
 
 const getTodos = createServerFn({ method: "GET" })
   .middleware([withAuth])
@@ -12,7 +12,7 @@ const getTodos = createServerFn({ method: "GET" })
 const addTodo = createServerFn({
   method: "POST",
 })
-  .validator(todoSchema)
+  .validator(todoValidation)
   .middleware([withAuth])
   .handler(async ({ context, data }) => {
     await todoService.addTodo({
