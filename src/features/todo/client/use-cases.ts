@@ -1,13 +1,21 @@
 import { useServerFn } from "@tanstack/react-start";
-import { addTodo } from "../server/controller";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { tryCatch } from "~/utils";
+import { todoController } from "../server/controller";
 
 const queryKey = ["todos"];
 
+export const todosQueryOptions = () => {
+  console.log("todosQueryOptions called");
+  return queryOptions({
+    queryKey,
+    queryFn: () => todoController.getTodos(),
+  });
+};
+
 export function useAddTodo() {
   const queryClient = useQueryClient();
-  const _addTodo = useServerFn(addTodo);
+  const _addTodo = useServerFn(todoController.addTodo);
 
   return useMutation({
     mutationFn: async (title: string) => {
