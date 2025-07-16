@@ -3,6 +3,7 @@ import { reactStartCookies } from "better-auth/react-start";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db";
 import { email } from "~/features/email/server/service";
+import { passkey } from "better-auth/plugins/passkey";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -44,5 +45,12 @@ export const auth = betterAuth({
       });
     },
   },
-  plugins: [reactStartCookies()],
+  plugins: [
+    reactStartCookies(),
+    passkey({
+      rpID: "localhost",
+      rpName: "TanStack Start Example",
+      origin: "http://localhost:3000",
+    }),
+  ],
 });

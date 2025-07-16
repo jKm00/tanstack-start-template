@@ -42,12 +42,28 @@ export const account = pgTable("account", {
 });
 
 export const verification = pgTable("verification", {
-  id: varchar("id", { length: 255 }).primaryKey().notNull(),
-  identifier: varchar("identifier", { length: 255 }).notNull(),
-  value: varchar("value", { length: 255 }).notNull(),
+  id: text("id").primaryKey().notNull(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
   expiresAt: timestamp("expiresAt").notNull(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
+
+export const passkey = pgTable("passkey", {
+  id: text("id").primaryKey().notNull(),
+  name: varchar("name", { length: 255 }),
+  publicKey: text("publicKey").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => user.id),
+  credentialID: text("credentialID").notNull(),
+  counter: integer("counter").notNull(),
+  deviceType: varchar("deviceType", { length: 255 }),
+  backedUp: boolean("backedUp").notNull(),
+  transports: text("transports").notNull(),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  aaguid: text("aaguid"),
 });
 
 export const todo = pgTable("todo", {

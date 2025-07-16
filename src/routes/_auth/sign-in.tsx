@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -6,10 +6,9 @@ import { authClient } from "~/lib/auth/auth-client";
 import { z } from "zod";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { toast } from "sonner";
-import { ArrowLeft, Gem } from "lucide-react";
+import { Gem } from "lucide-react";
 import { Label } from "~/components/ui/label";
-import { useSignIn } from "~/features/auth/client/use-cases";
-import { Separator } from "~/components/ui/separator";
+import { useSignIn, useSignInWithPasskey } from "~/features/auth/client/use-cases";
 
 const searchSchema = z.object({
   verify: z.boolean().optional(),
@@ -28,7 +27,8 @@ function RouteComponent() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string>("");
 
-  const mutation = useSignIn();
+  const signInMutation = useSignIn();
+  const signInWithPasskeyMutation = useSignInWithPasskey();
 
   useEffect(() => {
     if (verify) {
@@ -36,10 +36,22 @@ function RouteComponent() {
     }
   }, []);
 
+  // Autofill passkey if available
+  useEffect(() => {
+    if (
+      !PublicKeyCredential.isConditionalMediationAvailable ||
+      !PublicKeyCredential.isConditionalMediationAvailable()
+    ) {
+      return;
+    }
+
+    void authClient.signIn.passkey({ autoFill: true });
+  }, []);
+
   async function signIn() {
     setError("");
 
-    mutation.mutate(
+    signInMutation.mutate(
       {
         email,
         password,
@@ -53,6 +65,17 @@ function RouteComponent() {
         },
       }
     );
+  }
+
+  async function signInWithPasskey() {
+    signInWithPasskeyMutation.mutate(undefined, {
+      onError: (error) => {
+        setError(error.message);
+      },
+      onSuccess: () => {
+        navigate({ to: "/dashboard" });
+      },
+    });
   }
 
   return (
@@ -82,6 +105,7 @@ function RouteComponent() {
           id="email"
           type="email"
           placeholder="example@email.com"
+          autoComplete="email webauthn"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="mb-4"
@@ -99,11 +123,12 @@ function RouteComponent() {
           id="password"
           type="password"
           placeholder="********"
+          autoComplete="current-password webauthn"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="mb-4"
         />
-        <LoaderButton isLoading={mutation.isPending} type="submit" className="w-full">
+        <LoaderButton isLoading={signInMutation.isPending} type="submit" className="w-full">
           Sign In
         </LoaderButton>
         <div className="text-destructive mt-2 text-center">{error}</div>
@@ -113,7 +138,7 @@ function RouteComponent() {
         <p className="text-muted-foreground">Or</p>
         <span className="bg-muted h-1 grow" />
       </div>
-      <div className="grid sm:grid-cols-2 gap-4 mb-8">
+      <div className="grid gap-4 mb-8">
         <Button variant="outline" onClick={() => alert("Not implemented")}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path
@@ -141,6 +166,13 @@ function RouteComponent() {
           </svg>
           Continue with Google
         </Button>
+        <LoaderButton
+          variant="outline"
+          onClick={signInWithPasskey}
+          isLoading={signInWithPasskeyMutation.isPending}
+        >
+          Continue with Passkey
+        </LoaderButton>
       </div>
       <p className="text-xs max-w-[31ch] text-center mx-auto text-muted-foreground">
         By clicking continue, you agree to our{" "}

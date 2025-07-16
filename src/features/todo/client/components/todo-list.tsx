@@ -29,9 +29,11 @@ function TodoListInner() {
           {variable}
         </li>
       ))}
-      {todosQuery.data.map((todo) => (
-        <li key={todo.id}>{todo.title}</li>
-      ))}
+      {todosQuery.data.length === 0 ? (
+        <li className="text-muted-foreground text-sm">You dont have any todos yet...</li>
+      ) : (
+        todosQuery.data.map((todo) => <li key={todo.id}>{todo.title}</li>)
+      )}
     </ul>
   );
 }

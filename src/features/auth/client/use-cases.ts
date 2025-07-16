@@ -23,6 +23,14 @@ export function useSignIn() {
   });
 }
 
+export function useSignInWithPasskey() {
+  return useMutation({
+    mutationFn: async () => {
+      await authClient.signIn.passkey();
+    },
+  });
+}
+
 export function useSignUp() {
   return useMutation({
     mutationFn: async ({
@@ -157,6 +165,14 @@ export function useChangePassword() {
       if (error) {
         throw new Error(error.message || "Failed to change email");
       }
+    },
+  });
+}
+
+export function useAddPasskey() {
+  return useMutation({
+    mutationFn: async () => {
+      await authClient.passkey.addPasskey();
     },
   });
 }
