@@ -1,13 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import z from "zod";
 import { authClient } from "~/features/auth/lib/auth-client";
-import { registerValidation } from "../validations";
+import { registerValidation, signInValidation } from "../validations";
 
 export function useSignIn() {
   return useMutation({
     mutationFn: async ({ email, password }: { email: string; password: string }) => {
-      if (email === "" || password === "") {
-        throw new Error("Email and password are required!");
+      const result = signInValidation.safeParse({ email, password });
+
+      if (!result.success) {
+        throw new Error("Make sure to fill in all fields correctly");
       }
 
       const { error } = await authClient.signIn.email({
@@ -66,6 +67,17 @@ export function useSignUp() {
         }
         throw new Error("Sign up failed. Please try again.");
       }
+    },
+  });
+}
+
+export function useResendVerificationEmail() {
+  return useMutation({
+    mutationFn: async (email: string) => {
+      await authClient.sendVerificationEmail({
+        email,
+        callbackURL: "/dashboard",
+      });
     },
   });
 }

@@ -3,12 +3,19 @@ import { useEffect, useState } from "react";
 import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { authClient } from "~/features/auth/lib/auth-client";
-import { z } from "zod";
-import { zodValidator } from "@tanstack/zod-adapter";
-import { toast } from "sonner";
-import { Gem, Key } from "lucide-react";
+import { Eye, EyeOff, Gem, Key } from "lucide-react";
 import { Label } from "~/components/ui/label";
-import { useSignIn, useSignInWithPasskey } from "~/features/auth/client/use-cases";
+import {
+  useResendVerificationEmail,
+  useSignIn,
+  useSignInWithPasskey,
+} from "~/features/auth/client/use-cases";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signInValidation } from "~/features/auth/validations";
+import z from "zod";
+import { p } from "node_modules/better-auth/dist/shared/better-auth.Da_FnxgM";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_auth/sign-in")({
   component: RouteComponent,
@@ -16,13 +23,20 @@ export const Route = createFileRoute("/_auth/sign-in")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string>("");
-
   const signInMutation = useSignIn();
   const signInWithPasskeyMutation = useSignInWithPasskey();
+  const resendVerificationMutation = useResendVerificationEmail();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm({
+    resolver: zodResolver(signInValidation),
+  });
 
   // Autofill passkey if available
   useEffect(() => {
@@ -36,18 +50,13 @@ function RouteComponent() {
     void authClient.signIn.passkey({ autoFill: true });
   }, []);
 
-  async function signIn() {
-    setError("");
-
+  async function onSignIn(data: z.infer<typeof signInValidation>) {
     signInMutation.mutate(
       {
-        email,
-        password,
+        email: data.email,
+        password: data.password,
       },
       {
-        onError: (error) => {
-          setError(error.message);
-        },
         onSuccess: () => {
           navigate({ to: "/dashboard" });
         },
@@ -57,11 +66,17 @@ function RouteComponent() {
 
   async function signInWithPasskey() {
     signInWithPasskeyMutation.mutate(undefined, {
-      onError: (error) => {
-        setError(error.message);
-      },
       onSuccess: () => {
         navigate({ to: "/dashboard" });
+      },
+    });
+  }
+
+  async function onResendVerificationEmail() {
+    resendVerificationMutation.mutate(getValues("email"), {
+      onSuccess: () => {
+        toast.info("Verification email sent. Please check your inbox.");
+        signInMutation.reset();
       },
     });
   }
@@ -81,45 +96,82 @@ function RouteComponent() {
         </p>
       </div>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          signIn();
-        }}
-        className="grid"
+        onSubmit={handleSubmit(onSignIn)}
+        className="grid space-y-4"
         style={{ width: "min(100%, 500px)" }}
       >
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="example@email.com"
-          autoComplete="email webauthn"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mb-4"
-        />
-        <div className="flex justify-between">
-          <Label htmlFor="password">Password</Label>
-          <Link
-            to="/request-reset-password"
-            className="text-sm text-muted-foreground underline text-center block"
-          >
-            Forgot password
-          </Link>
+        <div>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="example@email.com"
+            autoComplete="email webauthn"
+            {...register("email")}
+            aria-invalid={errors.email ? "true" : "false"}
+          />
+          <p className="text-destructive text-sm">{errors.email?.message}</p>
         </div>
-        <Input
-          id="password"
-          type="password"
-          placeholder="********"
-          autoComplete="current-password webauthn"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mb-4"
-        />
-        <LoaderButton isLoading={signInMutation.isPending} type="submit" className="w-full">
+        <div>
+          <div className="flex justify-between">
+            <Label htmlFor="password">Password</Label>
+            <Link
+              to="/request-reset-password"
+              className="text-sm text-muted-foreground underline text-center block"
+            >
+              Forgot password
+            </Link>
+          </div>
+          <div className="flex items-center gap-2">
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="********"
+              autoComplete="current-password webauthn"
+              {...register("password")}
+              aria-invalid={errors.password ? "true" : "false"}
+            />
+            <Button
+              variant="outline"
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+            </Button>
+          </div>
+          <p className="text-destructive text-sm">{errors.password?.message}</p>
+        </div>
+        <LoaderButton
+          isLoading={signInMutation.isPending}
+          disabled={signInMutation.isPending}
+          type="submit"
+          className="w-full"
+        >
           Sign In
         </LoaderButton>
-        <div className="text-destructive mt-2 text-center">{error}</div>
+        {signInMutation.error ? (
+          signInMutation.error.message === "Please verify your email address" ? (
+            <p className="text-destructive text-sm text-center">
+              Please verify your email address.{" "}
+              <Button
+                variant="link"
+                className="px-0 text-destructive underline"
+                onClick={onResendVerificationEmail}
+                type="button"
+                disabled={resendVerificationMutation.isPending}
+              >
+                Resend verification email
+              </Button>
+            </p>
+          ) : (
+            <p className="text-destructive text-sm text-center">{signInMutation.error.message}</p>
+          )
+        ) : null}
+        {signInWithPasskeyMutation.error && (
+          <p className="text-destructive text-sm text-center">
+            {signInWithPasskeyMutation.error?.message}
+          </p>
+        )}
       </form>
       <div className="flex items-center gap-4 mt-4 mb-6">
         <span className="bg-muted h-1 grow" />
@@ -149,6 +201,7 @@ function RouteComponent() {
           variant="outline"
           onClick={signInWithPasskey}
           isLoading={signInWithPasskeyMutation.isPending}
+          disabled={signInWithPasskeyMutation.isPending}
         >
           <Key className="size-4" />
           Continue with Passkey

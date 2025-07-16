@@ -105,7 +105,7 @@ function RouteComponent() {
           </div>
           <p className="text-destructive text-sm">{errors.password?.message}</p>
         </div>
-        <LoaderButton isLoading={mutation.isPending} type="submit">
+        <LoaderButton isLoading={mutation.isPending} disabled={mutation.isPending} type="submit">
           Sign Up
         </LoaderButton>
         <p className="text-destructive text-sm text-center">{mutation.error?.message}</p>

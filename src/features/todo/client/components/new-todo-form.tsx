@@ -66,7 +66,7 @@ export default function NewTodoForm() {
               {...register("description")}
             />
           </div>
-          <LoaderButton isLoading={mutation.isPending} type="submit">
+          <LoaderButton isLoading={mutation.isPending} disabled={mutation.isPending} type="submit">
             <Plus className="size-4" />
             Add
           </LoaderButton>
