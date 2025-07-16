@@ -16,8 +16,8 @@ import { seo } from "~/utils/seo";
 import { Toaster } from "~/components/ui/sonner";
 
 import appCss from "~/styles/app.css?url";
-import { getThemeServerFn } from "~/features/theme/controller";
-import { ThemeProvider, useTheme } from "~/features/theme/theme-provider";
+import { ThemeProvider, useTheme } from "~/features/theme/client/theme-provider";
+import { themeController } from "~/features/theme/server/controller";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -68,7 +68,7 @@ export const Route = createRootRouteWithContext<{
   },
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
-  loader: () => getThemeServerFn(),
+  loader: () => themeController.getTheme(),
 });
 
 function RootComponent() {

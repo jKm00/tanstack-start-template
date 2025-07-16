@@ -6,7 +6,7 @@ import { Button, LoaderButton } from "~/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 import { Separator } from "~/components/ui/separator";
 import { useSignOut } from "~/features/auth/client/use-cases";
-import { ThemeToggle } from "~/features/theme/theme-toggle";
+import { ThemeToggle } from "~/features/theme/client/theme-toggle";
 import { authClient } from "~/lib/auth/auth-client";
 import { isAuthenticated } from "~/lib/auth/utils";
 

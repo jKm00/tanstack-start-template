@@ -1,8 +1,7 @@
-import { setThemeServerFn } from "~/features/theme/controller";
 import { useRouter } from "@tanstack/react-router";
 import { createContext, PropsWithChildren, use } from "react";
-
-export type Theme = "light" | "dark" | "system";
+import { Theme } from "../types";
+import { themeController } from "../server/controller";
 
 type ThemeContextVal = { theme: Theme; setTheme: (val: Theme) => void };
 type Props = PropsWithChildren<{ theme: Theme }>;
@@ -13,7 +12,7 @@ export function ThemeProvider({ children, theme }: Props) {
   const router = useRouter();
 
   function setTheme(val: Theme) {
-    setThemeServerFn({ data: val });
+    themeController.setTheme({ data: val });
     router.invalidate();
   }
 
