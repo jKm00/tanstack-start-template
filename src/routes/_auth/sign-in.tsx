@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { authClient } from "~/lib/auth/auth-client";
+import { authClient } from "~/features/auth/lib/auth-client";
 import { z } from "zod";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { toast } from "sonner";

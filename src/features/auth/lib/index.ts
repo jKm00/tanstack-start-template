@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { reactStartCookies } from "better-auth/react-start";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db } from "../db";
+import { db } from "../../../lib/db";
 import { email } from "~/features/email/server/service";
 import { passkey } from "better-auth/plugins/passkey";
 

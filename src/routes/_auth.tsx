@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { isAuthenticated } from "~/lib/auth/utils";
+import { isAuthenticated } from "~/features/auth/server/utils";
 
 export const Route = createFileRoute("/_auth")({
   component: RouteComponent,

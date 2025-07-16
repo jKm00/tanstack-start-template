@@ -4,7 +4,7 @@ import { LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useChangeEmail } from "../use-cases";
-import { authClient } from "~/lib/auth/auth-client";
+import { authClient } from "~/features/auth/lib/auth-client";
 
 export default function ChangeEmailForm() {
   const { data } = authClient.useSession();

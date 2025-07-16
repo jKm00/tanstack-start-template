@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
-import { authClient } from "~/lib/auth/auth-client";
+import { authClient } from "~/features/auth/lib/auth-client";
 import { ArrowRight, Check, Gem, LogIn } from "lucide-react";
 
 export const Route = createFileRoute("/")({

@@ -5,7 +5,7 @@ import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useSignUp } from "~/features/auth/client/use-cases";
-import { authClient } from "~/lib/auth/auth-client";
+import { authClient } from "~/features/auth/lib/auth-client";
 
 export const Route = createFileRoute("/_auth/sign-up")({
   component: RouteComponent,
