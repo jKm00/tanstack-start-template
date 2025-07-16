@@ -28,7 +28,7 @@ export default function NewTodoForm() {
 
   return (
     <form
-      onClick={(e) => {
+      onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
       }}

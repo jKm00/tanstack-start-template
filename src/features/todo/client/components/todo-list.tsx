@@ -1,5 +1,5 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { todosQueryOptions } from "../use-cases";
+import { useMutationState, useSuspenseQuery } from "@tanstack/react-query";
+import { mutationKeys, todosQueryOptions } from "../use-cases";
 import { Suspense } from "react";
 import Loader from "~/components/Loader";
 
@@ -17,8 +17,18 @@ export default function TodoList() {
 function TodoListInner() {
   const todosQuery = useSuspenseQuery(todosQueryOptions());
 
+  const variables = useMutationState({
+    filters: { mutationKey: mutationKeys.addTodo, status: "pending" },
+    select: (mutation) => mutation.state.variables,
+  }) as string[];
+
   return (
     <ul>
+      {variables.map((variable) => (
+        <li key={variable} className="animate-pulse text-muted-foreground">
+          {variable}
+        </li>
+      ))}
       {todosQuery.data.map((todo) => (
         <li key={todo.id}>{todo.title}</li>
       ))}

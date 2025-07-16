@@ -5,8 +5,11 @@ import { todoController } from "../server/controller";
 
 const queryKey = ["todos"];
 
+export const mutationKeys = {
+  addTodo: ["addTodo"],
+};
+
 export const todosQueryOptions = () => {
-  console.log("todosQueryOptions called");
   return queryOptions({
     queryKey,
     queryFn: () => todoController.getTodos(),
@@ -18,6 +21,7 @@ export function useAddTodo() {
   const _addTodo = useServerFn(todoController.addTodo);
 
   return useMutation({
+    mutationKey: mutationKeys.addTodo,
     mutationFn: async (title: string) => {
       const [error, _] = await tryCatch(_addTodo({ data: { title } }));
 
