@@ -1,37 +1,39 @@
-import { useState } from "react";
 import { LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { useAddTodo } from "../use-cases";
-import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Plus } from "lucide-react";
 import { Textarea } from "~/components/ui/textarea";
+import { useAddTodo } from "../use-cases";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { todoSchema } from "../../validations";
+import z from "zod";
 
 export default function NewTodoForm() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: zodResolver(todoSchema),
+  });
   const mutation = useAddTodo();
 
-  function handleSubmit() {
-    if (title === "") {
-      toast.info("Please enter a todo title.");
-      return;
-    }
-
+  async function onSubmit(data: z.infer<typeof todoSchema>) {
     mutation.mutate(
       {
-        title,
-        description: description || undefined,
+        title: data.title,
+        description: data.description,
       },
       {
         onError: (error) => {
           toast.error(`Failed to add todo: ${error.message}`);
         },
         onSuccess: () => {
-          setTitle("");
-          setDescription("");
+          reset();
         },
       }
     );
@@ -44,31 +46,27 @@ export default function NewTodoForm() {
         <CardDescription>Enter details for a new todo</CardDescription>
       </CardHeader>
       <CardContent>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-          className="grid"
-        >
-          <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            type="text"
-            placeholder="Enter a new todo"
-            className="mb-2"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            placeholder="(Optional) Enter a description"
-            className="mb-2"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <LoaderButton isLoading={mutation.isPending}>
+        <form onSubmit={handleSubmit(onSubmit)} className="grid">
+          <div className="mb-2">
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              type="text"
+              placeholder="Enter a new todo"
+              {...register("title", { required: "Title is required" })}
+              aria-invalid={errors.title ? "true" : "false"}
+            />
+            <p className="text-destructive text-sm mb-2">{errors.title?.message}</p>
+          </div>
+          <div className="mb-2">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              placeholder="(Optional) Enter a description"
+              {...register("description")}
+            />
+          </div>
+          <LoaderButton isLoading={mutation.isPending} type="submit">
             <Plus className="size-4" />
             Add
           </LoaderButton>

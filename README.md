@@ -2,15 +2,15 @@
 
 A minimal full‑stack Todo app that demonstrates how to wire together the modern TanStack ecosystem with type‑safe database access and batteries‑included authentication.
 
-| Package        | Role                                                                   |
-| -------------- | ---------------------------------------------------------------------- |
-| TanStack Start | File-based routing, server actions & streaming SSR                     |
-| TanStack Query | Declarative data-fetching with caching, mutations & optimistic updates |
-| TanStack Form  | Client side form validation                                            |
-| Better-Auth    | Authentication & session management (email/password, OAuth, Passkeys)  |
-| Drizzle ORM    | Type-safe SQL with PostgreSQL migrations                               |
-| Zod            | Schema validation                                                      |
-| Shadcn         | UI Components                                                          |
+| Package         | Role                                                                   |
+| --------------- | ---------------------------------------------------------------------- |
+| TanStack Start  | File-based routing, server actions & streaming SSR                     |
+| TanStack Query  | Declarative data-fetching with caching, mutations & optimistic updates |
+| React Hook Form | Client side form validation                                            |
+| Better-Auth     | Authentication & session management (email/password, OAuth, Passkeys)  |
+| Drizzle ORM     | Type-safe SQL with PostgreSQL migrations                               |
+| Zod             | Schema validation                                                      |
+| Shadcn          | UI Components                                                          |
 
 ## Table of Content
 
@@ -50,7 +50,8 @@ A minimal full‑stack Todo app that demonstrates how to wire together the moder
 - CRUD Todo items
   - TanStack Query with loading & error state
   - TanStack Query mutations with optimistic updates
-  - TanStack Form + Zod client-side validation
+  - React Hook Form + Zod for client-side validation
+  - TanStack Start server function
   - Zod server-side validation
   - End-to-end type safety
 
