@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import z from "zod";
 import { todoService } from "./service";
-import { getServerSession } from "~/features/auth/utils";
+import { getServerSession } from "~/features/auth/server/utils";
 
 const addTodoSchema = z.object({
   title: z.string().min(1, "Title is required"),

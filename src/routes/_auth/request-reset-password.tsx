@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { useRequestPasswordReset } from "~/features/auth/use-cases";
+import { useRequestPasswordReset } from "~/features/auth/client/use-cases";
 
 export const Route = createFileRoute("/_auth/request-reset-password")({
   component: RouteComponent,

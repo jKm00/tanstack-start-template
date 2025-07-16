@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import ChangeEmailForm from "~/features/auth/components/change-email";
-import ChangePasswordForm from "~/features/auth/components/change-password";
+import ChangeEmailForm from "~/features/auth/client/components/change-email";
+import ChangePasswordForm from "~/features/auth/client/components/change-password";
 
 export const Route = createFileRoute("/_app/profile")({
   component: RouteComponent,

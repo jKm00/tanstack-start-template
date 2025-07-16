@@ -8,7 +8,7 @@ import { zodValidator } from "@tanstack/zod-adapter";
 import { toast } from "sonner";
 import { ArrowLeft, Gem } from "lucide-react";
 import { Label } from "~/components/ui/label";
-import { useSignIn } from "~/features/auth/use-cases";
+import { useSignIn } from "~/features/auth/client/use-cases";
 import { Separator } from "~/components/ui/separator";
 
 const searchSchema = z.object({

@@ -6,7 +6,7 @@ import z from "zod";
 import { Button, LoaderButton } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { useResetPassword } from "~/features/auth/use-cases";
+import { useResetPassword } from "~/features/auth/client/use-cases";
 import { authClient } from "~/lib/auth/auth-client";
 
 const searchSchema = z.object({
