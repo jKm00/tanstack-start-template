@@ -2,15 +2,15 @@
 
 A minimal full‑stack Todo app that demonstrates how to wire together the modern TanStack ecosystem with type‑safe database access and batteries‑included authentication.
 
-| Package         | Role                                                                   |
-| --------------- | ---------------------------------------------------------------------- |
-| TanStack Start  | File-based routing, server actions & streaming SSR                     |
-| TanStack Query  | Declarative data-fetching with caching, mutations & optimistic updates |
-| React Hook Form | Client side form validation                                            |
-| Better-Auth     | Authentication & session management (email/password, OAuth, Passkeys)  |
-| Drizzle ORM     | Type-safe SQL with PostgreSQL migrations                               |
-| Zod             | Schema validation                                                      |
-| Shadcn          | UI Components                                                          |
+| Package                          | Role                                                                   |
+| -------------------------------- | ---------------------------------------------------------------------- |
+| TanStack Start                   | File-based routing, server actions & streaming SSR                     |
+| TanStack Query                   | Declarative data-fetching with caching, mutations & optimistic updates |
+| React Hook Form                  | Client side form validation                                            |
+| Better-Auth                      | Authentication & session management (email/password, OAuth, Passkeys)  |
+| Drizzle ORM                      | Type-safe SQL with PostgreSQL migrations                               |
+| Zod                              | Schema validation                                                      |
+| [Shadcn](https://ui.shadcn.com/) | UI Components                                                          |
 
 ## Table of Content
 
@@ -57,7 +57,7 @@ A minimal full‑stack Todo app that demonstrates how to wire together the moder
 
 ### UI
 
-- UI components from [Shadcn](https://ui.shadcn.com/)
+- UI components from Shadcn
 - Light & Dark theme
 - Custom theming
 
@@ -124,7 +124,7 @@ If you don't need email functionality, you can skip this section.
 #### Using a Different Email Provider
 
 1. Swap out the Resend client in [/src/features/email/lib/index.ts](/src/features/email/lib/index.ts)
-2. Update [/src/features/email/server/services.ts] with your new email client to match the interface defined in [/src/features/email/server/service.interface.ts](/src/features/email/server/service.interface.ts)
+2. Update [/src/features/email/server/services.ts](./src/features/email/server/service.ts) with your new email client to match the interface defined in [/src/features/email/server/service.interface.ts](/src/features/email/server/service.interface.ts)
 
 ## Project Structure
 
@@ -138,10 +138,12 @@ src/
     ui/                    # Shadcn UI components
   features/                # Feature modules (e.g. auth, todos, email)
     [feature]/
+      schema.ts            # Database schema
       types.ts             # Feature-specific types
+      validation.ts        # Zod validations
       lib/                 # Third-party integrations (e.g. Resend)
       client/              # Client-side logic and hooks
-        use-cases/         # TanStack Query hooks
+        use-cases.ts       # TanStack Query hooks
         components/        # Feature-specific UI
       server/              # Server-side logic
         middleware.ts      # Feature middlewares
@@ -162,7 +164,7 @@ All visual styles, including light/dark mode and component look-and-feel, can be
 
 To simplify theme creation or adjustments, I recommend using [tweakcn](https://tweakcn.com/) - a powerful cisual tool for generation and previewing Shadcn-compatible themes.
 
-> This project is currently styled with the `Doom64` theme from tweakcn.
+> This project is currently styled with the `Amber Minimal` theme from tweakcn.
 
 ## Useful Scripts
 
@@ -175,3 +177,4 @@ To simplify theme creation or adjustments, I recommend using [tweakcn](https://t
 | pnpm db:migrate                                 | Migrates the db based on migration files                |
 | pnpm db:studio                                  | Runs drizzle studio                                     |
 | docker compose -f docker-compose.dev.yaml up -d | Runs local postgres db                                  |
+| docker compose up -d                            | Builds and runs a production version of the app w/ db   |
