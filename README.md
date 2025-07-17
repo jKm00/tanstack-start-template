@@ -1,4 +1,4 @@
-# TanStack Start • TanStack Query • Better‑Auth • Drizzle 🚀
+# TanStack Start • TanStack Query • Better‑Auth • Drizzle
 
 A minimal full‑stack Todo app that demonstrates how to wire together the modern TanStack ecosystem with type‑safe database access and batteries‑included authentication.
 
@@ -14,7 +14,7 @@ A minimal full‑stack Todo app that demonstrates how to wire together the moder
 
 ## Table of Content
 
-- [TanStack Start • TanStack Query • Better‑Auth • Drizzle 🚀](#tanstack-start--tanstack-query--betterauth--drizzle-)
+- [TanStack Start • TanStack Query • Better‑Auth • Drizzle](#tanstack-start--tanstack-query--betterauth--drizzle)
   - [Table of Content](#table-of-content)
   - [Features](#features)
     - [Authentication](#authentication)
