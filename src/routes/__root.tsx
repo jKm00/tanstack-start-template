@@ -18,6 +18,7 @@ import { Toaster } from "~/components/ui/sonner";
 import appCss from "~/styles/app.css?url";
 import { ThemeProvider, useTheme } from "~/features/theme/client/theme-provider";
 import { themeController } from "~/features/theme/server/controller";
+import DevFlag from "~/components/DevFlag";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -94,7 +95,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <Toaster />
-        {/* <TanStackRouterDevtools position="top-right" /> */}
+        <DevFlag />
+        <TanStackRouterDevtools position="bottom-left" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />
       </body>
