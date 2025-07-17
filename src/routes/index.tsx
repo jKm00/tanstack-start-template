@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { authClient } from "~/features/auth/lib/auth-client";
-import { ArrowRight, Check, Gem, Github, LogIn } from "lucide-react";
+import { ArrowRight, Gem, Github, LogIn, Play } from "lucide-react";
 import { ThemeToggle } from "~/features/theme/client/theme-toggle";
 
 export const Route = createFileRoute("/")({
@@ -61,14 +61,15 @@ function Home() {
         <div className="flex gap-2">
           <Button asChild>
             <Link to="/sign-up">
-              Get Started <ArrowRight />
+              <Play />
+              Get Started
             </Link>
           </Button>
           <Button asChild variant="secondary">
             {/* TODO: Add link to repo */}
             <a href="/" target="_blank">
+              <Github />
               Explore code
-              <Github className="size-4" />
             </a>
           </Button>
         </div>

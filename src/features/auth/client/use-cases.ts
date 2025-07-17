@@ -1,6 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { authClient } from "~/features/auth/lib/auth-client";
-import { registerValidation, signInValidation } from "../validations";
+import {
+  registerValidation,
+  requestPasswordResetValidation,
+  resetPasswordValidation,
+  signInValidation,
+} from "../validations";
+import z from "zod";
 
 export function useSignIn() {
   return useMutation({
@@ -97,9 +103,10 @@ export function useSignOut() {
 export function useRequestPasswordReset() {
   return useMutation({
     mutationFn: async (email: string) => {
-      // TODO: Validate properly
-      if (email === "") {
-        throw new Error("Email is required!");
+      const result = requestPasswordResetValidation.safeParse({ email });
+
+      if (!result.success) {
+        throw new Error("Please enter a valid email address");
       }
 
       await authClient.requestPasswordReset({
@@ -119,11 +126,17 @@ export function useResetPassword() {
       newPassword: string;
       token: string | undefined;
     }) => {
-      if (newPassword === "") {
-        throw new Error("New password is required!");
-      }
-      if (!token || token === "") {
-        throw new Error("Token is required!");
+      const result = resetPasswordValidation.safeParse({ newPassword, token });
+
+      if (!result.success) {
+        const flattened = z.flattenError(result.error);
+        if (flattened.fieldErrors.newPassword) {
+          throw new Error(flattened.fieldErrors.newPassword[0]);
+        }
+        if (flattened.fieldErrors.token) {
+          throw new Error(flattened.fieldErrors.token[0]);
+        }
+        throw new Error("Please fill in all fields correctly");
       }
 
       await authClient.resetPassword({

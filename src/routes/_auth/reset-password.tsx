@@ -1,13 +1,9 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
-import { useState } from "react";
-import { toast } from "sonner";
+import { Home, RefreshCcw } from "lucide-react";
 import z from "zod";
-import { Button, LoaderButton } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { useResetPassword } from "~/features/auth/client/use-cases";
-import { authClient } from "~/features/auth/lib/auth-client";
+import { Button } from "~/components/ui/button";
+import ResetPassword from "~/features/auth/client/components/reset-password";
 
 const searchSchema = z.object({
   token: z.string().optional(),
@@ -20,55 +16,31 @@ export const Route = createFileRoute("/_auth/reset-password")({
 
 function RouteComponent() {
   const { token } = Route.useSearch();
-  const navigate = useNavigate();
 
-  const [newPassword, setNewPassword] = useState("");
-  const [error, setError] = useState<string>("");
-
-  const mutation = useResetPassword();
-
-  async function resetPassword() {
-    setError("");
-
-    mutation.mutate(
-      {
-        newPassword,
-        token,
-      },
-      {
-        onError: (error) => {
-          setError(error.message);
-        },
-        onSuccess: () => {
-          navigate({ to: "/sign-in" });
-        },
-      }
+  if (!token) {
+    return (
+      <div className="mx-auto">
+        <h1 className="text-3xl font-bold mb-4">Invalid Token</h1>
+        <p className="max-w-[80ch] mb-8">
+          You are missing or have an invalid token in your URL. Please make sure to use the full URL
+          sent to your email!
+        </p>
+        <div className="flex items-center gap-2">
+          <Button asChild>
+            <Link to="/request-reset-password">
+              <RefreshCcw />
+              Request a new password reset
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/">
+              <Home /> Go back to home
+            </Link>
+          </Button>
+        </div>
+      </div>
     );
   }
 
-  return (
-    <div className="mx-auto" style={{ width: "min(100%, 500px)" }}>
-      <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
-      <form
-        className="grid gap-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          resetPassword();
-        }}
-      >
-        <Label htmlFor="password">New Password</Label>
-        <Input
-          id="password"
-          type="password"
-          placeholder="********"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-        <LoaderButton isLoading={mutation.isPending} type="submit">
-          Update password
-        </LoaderButton>
-        <p className="text-center text-sm text-destructive mt-2">{error}</p>
-      </form>
-    </div>
-  );
+  return <ResetPassword token={token} />;
 }
