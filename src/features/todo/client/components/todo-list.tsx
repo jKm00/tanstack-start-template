@@ -2,9 +2,10 @@ import { useMutationState, useSuspenseQuery } from "@tanstack/react-query";
 import { mutationKeys, todosQueryOptions } from "../use-cases";
 import { Suspense } from "react";
 import Loader from "~/components/Loader";
-import { Todo } from "../../schema";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { User } from "~/features/auth/schema";
+import { Todo } from "../../types";
+import { EditTodoDialog } from "./edit-todo.dialog";
 
 export default function TodoList() {
   return (
@@ -55,17 +56,22 @@ function TodoCard({ todo, user }: { todo: Todo; user: User | null }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{todo.title}</CardTitle>
-        <CardDescription>
-          {user?.name || "Unknown"} -{" "}
-          {todo.createdAt.toLocaleDateString("nb-NO", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </CardDescription>
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle>{todo.title}</CardTitle>
+            <CardDescription>
+              {user?.name || "Unknown"} -{" "}
+              {todo.createdAt.toLocaleDateString("nb-NO", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </CardDescription>
+          </div>
+          <EditTodoDialog todo={todo} />
+        </div>
       </CardHeader>
       {todo.description && (
         <CardContent>

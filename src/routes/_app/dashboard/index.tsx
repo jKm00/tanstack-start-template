@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import NewTodoForm from "~/features/todo/client/components/new-todo-form";
+import NewTodoForm from "~/features/todo/client/components/new-todo.form";
 import TodoList from "~/features/todo/client/components/todo-list";
 
 export const Route = createFileRoute("/_app/dashboard/")({

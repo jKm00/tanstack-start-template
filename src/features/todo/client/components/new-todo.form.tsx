@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { todoValidation } from "../../validations";
+import { addTodoValidation } from "../../validations";
 
 export default function NewTodoForm() {
   const {
@@ -18,11 +18,11 @@ export default function NewTodoForm() {
     formState: { errors },
     reset,
   } = useForm({
-    resolver: zodResolver(todoValidation),
+    resolver: zodResolver(addTodoValidation),
   });
   const mutation = useAddTodo();
 
-  async function onSubmit(data: z.infer<typeof todoValidation>) {
+  async function onSubmit(data: z.infer<typeof addTodoValidation>) {
     mutation.mutate(
       {
         title: data.title,

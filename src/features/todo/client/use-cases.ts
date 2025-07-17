@@ -35,3 +35,30 @@ export function useAddTodo() {
     },
   });
 }
+
+export function useUpdateTodo() {
+  const queryClient = useQueryClient();
+  const _updateTodo = useServerFn(todoController.updateTodo);
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      title,
+      description,
+    }: {
+      id: string;
+      title: string;
+      description?: string;
+    }) => {
+      const [error, _] = await tryCatch(_updateTodo({ data: { id, title, description } }));
+
+      if (error) {
+        throw error;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey,
+      });
+    },
+  });
+}
