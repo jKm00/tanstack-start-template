@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { authClient } from "~/features/auth/lib/auth-client";
-import { ArrowRight, Gem, Github, LogIn, Play } from "lucide-react";
+import { ArrowRight, Book, Check, Dot, Gem, Github, LogIn, Play } from "lucide-react";
 import { ThemeToggle } from "~/features/theme/client/theme-toggle";
 import { Footer } from "~/components/Footer";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import StackList from "~/components/StackList";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -13,12 +15,9 @@ function Home() {
   const { data: session } = authClient.useSession();
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col mx-auto" style={{ width: "min(100%, 1200px)" }}>
       <header className="p-4">
-        <div
-          className="mx-auto flex items-center justify-between gap-4"
-          style={{ width: "min(100%, 1200px)" }}
-        >
+        <div className="flex items-center justify-between gap-4">
           <h1 className="font-bold">
             <Link to="/" className="flex items-center gap-2">
               <Gem className="size-4" />
@@ -49,17 +48,16 @@ function Home() {
           </div>
         </div>
       </header>
-      <div
-        className="mx-auto flex flex-col items-center my-56"
-        style={{ width: "min(100%, 1200px)" }}
-      >
-        <Gem className="size-8" />
-        <h1 className="text-6xl font-bold mb-4">JKM Template</h1>
-        <p className="max-w-[80ch] text-center text-sm mb-8">
+      <div className="flex flex-col grow justify-center items-center">
+        <div className="flex flex-col items-center mb-4 w-fit">
+          <Gem className="size-8" />
+          <h1 className="text-6xl font-bold">JKM Template</h1>
+        </div>
+        <p className="max-w-[80ch] text-sm mb-12 text-center">
           A minimal full-stack Todo app that demonstrates how to wire together the modern TanStack
           ecosystem with type-safe database access and batteries-included authentication.
         </p>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-12">
           <Button asChild>
             <Link to="/sign-up">
               <Play />
@@ -74,8 +72,9 @@ function Home() {
             </a>
           </Button>
         </div>
-        <Footer className="mt-8" />
+        <StackList />
       </div>
-    </>
+      <Footer className="mx-auto my-4" />
+    </div>
   );
 }
