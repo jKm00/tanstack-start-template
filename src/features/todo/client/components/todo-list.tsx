@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/com
 import { User } from "~/features/auth/schema";
 import { Todo } from "../../types";
 import { EditTodoDialog } from "./edit-todo.dialog";
+import { DeleteTodoAlert } from "./delete-todo.alert";
 
 export default function TodoList() {
   return (
@@ -70,7 +71,10 @@ function TodoCard({ todo, user }: { todo: Todo; user: User | null }) {
               })}
             </CardDescription>
           </div>
-          <EditTodoDialog todo={todo} />
+          <div className="space-x-1">
+            <EditTodoDialog todo={todo} />
+            <DeleteTodoAlert id={todo.id} />
+          </div>
         </div>
       </CardHeader>
       {todo.description && (

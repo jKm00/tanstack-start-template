@@ -57,8 +57,25 @@ async function updateTodo({
     .where(and(eq(todo.id, id), eq(todo.userId, userId)));
 }
 
+async function deleteTodo({ id, userId }: { id: string; userId: string }) {
+  const existingTodo = await db.query.todo.findFirst({
+    where: eq(todo.id, id),
+  });
+
+  if (!existingTodo) {
+    throw new Error("Todo not found");
+  }
+
+  if (existingTodo.userId !== userId) {
+    throw new Error("Unauthorized to delete this todo");
+  }
+
+  await db.delete(todo).where(and(eq(todo.id, id), eq(todo.userId, userId)));
+}
+
 export const todoService = {
   getTodos,
   addTodo,
   updateTodo,
+  deleteTodo,
 };

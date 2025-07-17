@@ -62,3 +62,22 @@ export function useUpdateTodo() {
     },
   });
 }
+
+export function useDeleteTodo() {
+  const queryClient = useQueryClient();
+  const _deleteTodo = useServerFn(todoController.deleteTodo);
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const [error, _] = await tryCatch(_deleteTodo({ data: { id } }));
+
+      if (error) {
+        throw error;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey,
+      });
+    },
+  });
+}

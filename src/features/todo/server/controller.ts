@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { todoService } from "./service";
 import { withAuth } from "~/features/auth/server/middleware";
-import { addTodoValidation, editTodoValidation } from "../validations";
+import { addTodoValidation, deleteTodoValidation, editTodoValidation } from "../validations";
 
 const getTodos = createServerFn({ method: "GET" })
   .middleware([withAuth])
@@ -38,8 +38,21 @@ const updateTodo = createServerFn({
     });
   });
 
+const deleteTodo = createServerFn({
+  method: "POST",
+})
+  .validator(deleteTodoValidation)
+  .middleware([withAuth])
+  .handler(async ({ context, data }) => {
+    await todoService.deleteTodo({
+      id: data.id,
+      userId: context.userId,
+    });
+  });
+
 export const todoController = {
   getTodos,
   addTodo,
   updateTodo,
+  deleteTodo,
 };

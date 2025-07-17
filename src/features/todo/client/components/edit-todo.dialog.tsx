@@ -95,6 +95,9 @@ export function EditTodoDialog({ todo }: { todo: Todo }) {
               aria-invalid={!!errors.description}
             />
           </div>
+          {mutation.error && (
+            <p className="text-destructive text-sm text-center">{mutation.error.message}</p>
+          )}
         </form>
         <DialogFooter className="grid grid-cols-2 gap-2">
           <DialogClose asChild>
