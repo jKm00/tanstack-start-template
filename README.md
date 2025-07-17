@@ -2,15 +2,15 @@
 
 A minimal full‑stack Todo app that demonstrates how to wire together the modern TanStack ecosystem with type‑safe database access and batteries‑included authentication.
 
-| Package                          | Role                                                                   |
-| -------------------------------- | ---------------------------------------------------------------------- |
-| TanStack Start                   | File-based routing, server actions & streaming SSR                     |
-| TanStack Query                   | Declarative data-fetching with caching, mutations & optimistic updates |
-| React Hook Form                  | Client side form validation                                            |
-| Better-Auth                      | Authentication & session management (email/password, OAuth, Passkeys)  |
-| Drizzle ORM                      | Type-safe SQL with PostgreSQL migrations                               |
-| Zod                              | Schema validation                                                      |
-| [Shadcn](https://ui.shadcn.com/) | UI Components                                                          |
+| Package                                             | Role                                                                   |
+| --------------------------------------------------- | ---------------------------------------------------------------------- |
+| [TanStack Start](https://tanstack.com/start/latest) | File-based routing, server actions & streaming SSR                     |
+| [TanStack Query](https://tanstack.com/query/latest) | Declarative data-fetching with caching, mutations & optimistic updates |
+| [React Hook Form](https://react-hook-form.com/)     | Client side form validation                                            |
+| [Better-Auth](https://www.better-auth.com/)         | Authentication & session management (email/password, OAuth, Passkeys)  |
+| [Drizzle ORM](https://orm.drizzle.team/)            | Type-safe SQL with PostgreSQL migrations                               |
+| [Zod](https://zod.dev/)                             | Schema validation                                                      |
+| [Shadcn](https://ui.shadcn.com/)                    | UI Components                                                          |
 
 ## Table of Content
 
