@@ -3,6 +3,7 @@ import { Button } from "~/components/ui/button";
 import { authClient } from "~/features/auth/lib/auth-client";
 import { ArrowRight, Gem, Github, LogIn, Play } from "lucide-react";
 import { ThemeToggle } from "~/features/theme/client/theme-toggle";
+import { Footer } from "~/components/Footer";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -73,6 +74,7 @@ function Home() {
             </a>
           </Button>
         </div>
+        <Footer className="mt-8" />
       </div>
     </>
   );

@@ -8,9 +8,9 @@ export const Route = createFileRoute("/_app/dashboard/")({
 
 function RouteComponent() {
   return (
-    <main className="mx-auto my-8" style={{ width: "min(800px, 100%)" }}>
+    <>
       <NewTodoForm />
       <TodoList />
-    </main>
+    </>
   );
 }
