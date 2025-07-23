@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { authClient } from "~/features/auth/lib/auth-client";
-import { ArrowRight, Book, Check, Dot, Gem, Github, LogIn, Play } from "lucide-react";
+import { ArrowRight, Gem, Github, LogIn, Play } from "lucide-react";
 import { ThemeToggle } from "~/features/theme/client/theme-toggle";
 import { Footer } from "~/components/Footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import StackList from "~/components/StackList";
 
 export const Route = createFileRoute("/")({
