@@ -18,14 +18,14 @@ export const todosQueryOptions = () => {
 
 export function useAddTodo() {
   const queryClient = useQueryClient();
-  const _addTodo = useServerFn(todoController.addTodo);
 
   return useMutation({
     mutationKey: mutationKeys.addTodo,
     mutationFn: async ({ title, description }: { title: string; description?: string }) => {
-      const [error, _] = await tryCatch(_addTodo({ data: { title, description } }));
+      const [error, _] = await tryCatch(todoController.addTodo({ data: { title, description } }));
 
       if (error) {
+        console.error("Error adding todo:", error); // TODO: Log error to a monitoring service
         throw error;
       }
 
@@ -38,7 +38,6 @@ export function useAddTodo() {
 
 export function useUpdateTodo() {
   const queryClient = useQueryClient();
-  const _updateTodo = useServerFn(todoController.updateTodo);
 
   return useMutation({
     mutationFn: async ({
@@ -50,9 +49,12 @@ export function useUpdateTodo() {
       title: string;
       description?: string;
     }) => {
-      const [error, _] = await tryCatch(_updateTodo({ data: { id, title, description } }));
+      const [error, _] = await tryCatch(
+        todoController.updateTodo({ data: { id, title, description } })
+      );
 
       if (error) {
+        console.error("Error updating todo:", error); // TODO: Log error to a monitoring service
         throw error;
       }
 
@@ -65,13 +67,13 @@ export function useUpdateTodo() {
 
 export function useDeleteTodo() {
   const queryClient = useQueryClient();
-  const _deleteTodo = useServerFn(todoController.deleteTodo);
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const [error, _] = await tryCatch(_deleteTodo({ data: { id } }));
+      const [error, _] = await tryCatch(todoController.deleteTodo({ data: { id } }));
 
       if (error) {
+        console.error("Error deleting todo:", error); // TODO: Log error to a monitoring service
         throw error;
       }
 
