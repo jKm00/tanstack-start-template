@@ -1,18 +1,10 @@
-import {
-  createFileRoute,
-  Link,
-  Outlet,
-  redirect,
-  useLocation,
-  useRouter,
-} from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, redirect, useLocation } from "@tanstack/react-router";
 import { Gem, Github } from "lucide-react";
-import { Separator } from "~/components/ui/separator";
-import { ThemeToggle } from "~/features/theme/client/theme-toggle";
 import { isAuthenticated } from "~/features/auth/server/utils";
 import UserMenu from "~/features/auth/client/components/user-menu";
 import { Footer } from "~/components/Footer";
 import { Button } from "~/components/ui/button";
+import { ThemeToggle } from "~/features/theme/theme-toggle";
 
 export const Route = createFileRoute("/_app")({
   component: RouteComponent,
