@@ -78,25 +78,23 @@ export default function StackList() {
   return (
     <ul className="flex flex-wrap justify-center text-sm gap-2 max-w-[80ch]">
       {stack.map((item, index) => (
-        <>
-          <li
-            key={item.name}
-            ref={(el) => {
-              itemRefs.current[index] = el;
-            }}
-            className="flex items-center gap-1"
+        <li
+          key={item.name}
+          ref={(el) => {
+            itemRefs.current[index] = el;
+          }}
+          className="flex items-center gap-2"
+        >
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline focus:underline"
           >
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline focus:underline"
-            >
-              {item.name}
-            </a>
-          </li>
+            {item.name}
+          </a>
           {!lastInRowIndices.has(index) && <Dot />}
-        </>
+        </li>
       ))}
     </ul>
   );

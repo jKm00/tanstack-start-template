@@ -2,6 +2,8 @@ import { eq, desc, and } from "drizzle-orm";
 import { db } from "~/features/db/lib";
 import { todo, user } from "~/features/db/lib/schema";
 import { Todo } from "../types";
+import { NotFoundError } from "~/errors/not-found";
+import { UnauthorizedError } from "~/errors/unathorized";
 
 async function getTodos(userId: string) {
   return db
@@ -42,11 +44,11 @@ async function updateTodo({
   });
 
   if (!existingTodo) {
-    throw new Error("Todo not found");
+    throw new NotFoundError("Todo not found");
   }
 
   if (existingTodo.userId !== userId) {
-    throw new Error("Unauthorized to update this todo");
+    throw new UnauthorizedError("Unauthorized to update this todo");
   }
 
   await db
@@ -63,11 +65,11 @@ async function deleteTodo({ id, userId }: { id: string; userId: string }) {
   });
 
   if (!existingTodo) {
-    throw new Error("Todo not found");
+    throw new NotFoundError("Todo not found");
   }
 
   if (existingTodo.userId !== userId) {
-    throw new Error("Unauthorized to delete this todo");
+    throw new UnauthorizedError("Unauthorized to delete this todo");
   }
 
   await db.delete(todo).where(and(eq(todo.id, id), eq(todo.userId, userId)));
