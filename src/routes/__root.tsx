@@ -16,9 +16,9 @@ import { seo } from "~/utils/seo";
 import { Toaster } from "~/components/ui/sonner";
 
 import appCss from "~/styles/app.css?url";
-import { ThemeProvider, useTheme } from "~/features/theme/client/theme-provider";
-import { themeController } from "~/features/theme/server/controller";
 import DevFlag from "~/components/DevFlag";
+import { ThemeProvider } from "~/features/theme/theme-provider";
+import { themeScript } from "~/features/theme/scripts";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -69,36 +69,36 @@ export const Route = createRootRouteWithContext<{
   },
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
-  loader: () => themeController.getTheme(),
 });
 
 function RootComponent() {
-  const data = Route.useLoaderData();
-
   return (
-    <ThemeProvider theme={data}>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
-    </ThemeProvider>
+    <RootDocument>
+      <Outlet />
+    </RootDocument>
   );
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { theme } = useTheme();
-
   return (
-    <html className={theme} suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: themeScript,
+          }}
+        />
       </head>
-      <body>
-        {children}
-        <Toaster />
-        <DevFlag />
-        <TanStackRouterDevtools position="bottom-left" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
-        <Scripts />
+      <body suppressHydrationWarning>
+        <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+          {children}
+          <Toaster />
+          <DevFlag />
+          <TanStackRouterDevtools position="bottom-left" />
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+          <Scripts />
+        </ThemeProvider>
       </body>
     </html>
   );
